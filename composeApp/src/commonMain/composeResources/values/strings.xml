@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Compose Multiplatform</string>
+    <string name="screen_home_title">Accueil</string>
+    <string name="volume_number">Tome %1$d</string>
+</resources>
