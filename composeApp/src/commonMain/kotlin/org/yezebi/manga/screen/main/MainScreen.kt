@@ -1,8 +1,6 @@
 package org.yezebi.manga.screen.main
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,6 +19,7 @@ import org.yezebi.manga.domains.manga.services.MangaService
 
 @Composable
 fun MainScreen(
+    onNavigateToMangaScreen: (String) -> Unit,
     mangaService: MangaService = koinInject(),
     mainViewModel: MainViewModel = viewModel { MainViewModel(mangaService) }
 ) {
@@ -38,7 +37,7 @@ fun MainScreen(
             modifier = Modifier.padding(16.dp),
         ) {
             items(volumes) {
-                VolumeCard(it)
+                VolumeCard(it, onClick = onNavigateToMangaScreen)
             }
         }
     }

@@ -1,11 +1,11 @@
 package org.yezebi.manga.domains.manga.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.LocalDate
 import manga.composeapp.generated.resources.Res
@@ -13,22 +13,22 @@ import manga.composeapp.generated.resources.volume_number
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.yezebi.manga.component.Image
+import org.yezebi.manga.component.SingleLineText
 import org.yezebi.manga.domains.manga.model.Volume
 
 @Composable
 fun VolumeCard(
-    volume: Volume
+    volume: Volume,
+    onClick: (String) -> Unit = {}
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.clickable { onClick(volume.id) }) {
         Image(volume.imageUrl)
         Column {
-            Text(
+            SingleLineText(
                 volume.title,
                 style = MaterialTheme.typography.bodyMedium,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
             )
-            Text(
+            SingleLineText(
                 stringResource(Res.string.volume_number, volume.number),
                 color = MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.bodySmall
