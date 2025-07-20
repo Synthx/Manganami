@@ -13,4 +13,14 @@ class MangaServiceImpl : MangaService {
 
         return response.toVolumes()
     }
+
+    override suspend fun getById(id: String): Volume {
+        val response = httpClient.get("v2/volumes/$id").body<CollectionResponse>()
+
+        val volume = response.volumes.find { it.id == id }!!
+        val edition = response.editionRecord()[volume.editionId]!!
+        val series = response.seriesRecord()[edition.seriesId]!!
+
+        return Volume.from(volume, edition, series)
+    }
 }

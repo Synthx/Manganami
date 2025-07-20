@@ -4,4 +4,6 @@ import org.yezebi.manga.domains.manga.model.Volume
 
 interface MangaService {
     suspend fun getNews(): List<Volume>
+
+    suspend fun getById(id: String): Volume
 }
