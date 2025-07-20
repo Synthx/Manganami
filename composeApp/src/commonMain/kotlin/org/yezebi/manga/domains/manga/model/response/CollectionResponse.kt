@@ -1,7 +1,7 @@
 package org.yezebi.manga.domains.manga.model.response
 
 import kotlinx.serialization.Serializable
-import org.yezebi.manga.domains.manga.model.Volume
+import org.yezebi.manga.domains.manga.model.MinimalVolume
 
 @Serializable
 data class CollectionResponse(
@@ -10,7 +10,7 @@ data class CollectionResponse(
     val series: List<SeriesResponse>,
     val volumes: List<VolumeResponse>,
 ) {
-    fun toVolumes(): List<Volume> {
+    fun minimalVolumes(): List<MinimalVolume> {
         val editionRecord = editionRecord()
         val seriesRecord = seriesRecord()
 
@@ -18,7 +18,7 @@ data class CollectionResponse(
             val edition = editionRecord[it.editionId]!!
             val series = seriesRecord[edition.seriesId]!!
 
-            Volume.from(it, edition, series)
+            MinimalVolume.from(it, edition, series)
         }
     }
 

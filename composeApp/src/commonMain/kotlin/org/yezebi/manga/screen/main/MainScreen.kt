@@ -36,7 +36,7 @@ fun MainScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(16.dp),
         ) {
-            items(volumes) {
+            items(volumes.data) {
                 VolumeCard(it, onClick = onNavigateToMangaScreen)
             }
         }

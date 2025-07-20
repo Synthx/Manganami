@@ -2,33 +2,30 @@ package org.yezebi.manga.screen.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.yezebi.manga.domains.manga.model.Volume
+import org.yezebi.manga.domains.manga.model.MinimalVolume
 import org.yezebi.manga.domains.manga.services.MangaService
+import org.yezebi.manga.model.MutableLazyStateFlow
 
 class MainViewModel(
     private val mangaService: MangaService
 ) : ViewModel() {
-    private val _loading = MutableStateFlow(false)
-    val loading = _loading.asStateFlow()
-
-    private val _volumes = MutableStateFlow<List<Volume>>(emptyList())
+    private val _volumes = MutableLazyStateFlow<List<MinimalVolume>>(emptyList())
     val volumes = _volumes.asStateFlow()
 
     fun init() {
         viewModelScope.launch {
-            _loading.value = true
+            _volumes.value = _volumes.value.copy(isLoading = true)
 
             try {
                 val volumes = mangaService.getNews()
 
-                _volumes.value = volumes
+                _volumes.value = _volumes.value.copy(data = volumes)
             } catch (e: Exception) {
-                println(e)
+                _volumes.value = _volumes.value.copy(error = e)
             } finally {
-                _loading.value = false
+                _volumes.value = _volumes.value.copy(isLoading = false)
             }
         }
     }
